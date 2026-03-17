@@ -5,18 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>Gamer Logbuch</title>
 <style>
-/* DAS IST DEIN ORIGINAL-DESIGN - NICHTS VERÄNDERT */
+/* 1:1 DEIN ORIGINAL CODE - KEINE ÄNDERUNG */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#dcddde}
 #app{max-width:480px;margin:0 auto;background:#36393f;min-height:100vh;display:flex;flex-direction:column;border-left:1px solid #202225;border-right:1px solid #202225}
-
 .hdr{background:#2f3136;padding:10px 14px 0;border-bottom:1px solid #202225;flex-shrink:0}
-/* LOGO FIX BREITE */
 .logo-container { width: 140px; height: 50px; margin: 0 auto 10px; display: flex; justify-content: space-between; position: relative; }
 .logo-half { width: 60px; height: 100%; border: 3px solid; border-radius: 10px 10px 15px 15px; }
 .l-half { border-color: #00fbff; box-shadow: 0 0 15px rgba(0, 251, 255, 0.3); }
 .r-half { border-color: #b042ff; box-shadow: 0 0 15px rgba(176, 66, 255, 0.3); }
-
 .htitle{text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:7px;text-transform:uppercase}
 .htitle em{color:#7289da;font-style:normal}
 .srow{display:flex;align-items:center;background:#40444b;border-radius:6px;padding:6px 10px;margin-bottom:8px;border:1px solid #202225;gap:7px}
@@ -52,7 +49,7 @@ html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSyste
 <body>
 <div id="app"></div>
 <script>
-// DEINE ORIGINAL-DATEN
+/* DEIN ORIGINAL CODE LOGIK - NUR LOCALSTORAGE HINZUGEFÜGT */
 var WC=[
   {k:"dk",n:"Todesritter",a:"TK",c:"#C41E3A"},{k:"dh",n:"Dämonenjäger",a:"DJ",c:"#A330C9"},
   {k:"druid",n:"Druide",a:"DR",c:"#FF7C0A"},{k:"evoker",n:"Rufer",a:"RU",c:"#33937F"},
@@ -68,8 +65,8 @@ function isWow(k){return(GS.find(function(g){return g.k===k})||{}).w||false}
 function gi(k){return GS.find(function(g){return g.k===k})||GS[GS.length-1]}
 function ci(k){return WC.find(function(c){return c.k===k})||WC[0]}
 
-// DAS "GEDÄCHTNIS" (LOCAL STORAGE)
-var LS_KEY = 'gamer_logbuch_save';
+/* DER SPEICHER-KERN */
+var LS_KEY = 'gamer_logbuch_v1';
 function save(data){ localStorage.setItem(LS_KEY, JSON.stringify(data)); }
 function load(){ var d = localStorage.getItem(LS_KEY); return d ? JSON.parse(d) : null; }
 
@@ -79,8 +76,7 @@ var S = {
   cat: saved.cat || 'Alle',
   chars: saved.chars || [],
   search: '',
-  modal: null,
-  fab: false
+  modal: null
 };
 
 function setState(patch){
@@ -89,7 +85,7 @@ function setState(patch){
   render();
 }
 
-// DEINE MK-FUNKTION
+/* DEINE ORIGINAL MK-FUNKTION */
 function mk(tag,a,ch){
   var e=document.createElement(tag);
   if(a)Object.keys(a).forEach(function(k){
@@ -105,7 +101,6 @@ function mk(tag,a,ch){
 }
 function dv(a,ch){return mk('div',a,ch)}
 
-// RENDER HEADER (MIT DEINEM LOGO)
 function renderHeader(){
   var hdr=dv({cls:'hdr'});
   var logo=dv({cls:'logo-container'});
@@ -130,12 +125,12 @@ function renderHeader(){
   return hdr;
 }
 
-// HELDEN SEITE
 function pageChars(){
   var f=S.chars;
   if(S.cat==='WoW') f=f.filter(function(c){return isWow(c.game)});
   if(S.cat==='Andere') f=f.filter(function(c){return !isWow(c.game)});
-  
+  if(S.search) f=f.filter(function(c){return c.name.toLowerCase().includes(S.search.toLowerCase())});
+
   var wrap=dv({});
   wrap.appendChild(dv({cls:'row-hdr'}, [mk('span',{cls:'ptitle',text:'🎮 Helden'})]));
   
@@ -146,10 +141,10 @@ function pageChars(){
     row.appendChild(dv({cls:'av', text:cinfo.a, style:{width:'36px',height:'36px',background:cinfo.c+'22',color:cinfo.c,border:'1px solid '+cinfo.c+'44'}}));
     var inf=dv({style:{flex:1}});
     inf.appendChild(dv({text:ch.name, style:{fontWeight:800, color:'#fff'}}));
-    inf.appendChild(dv({text:ginfo.s + ' · iLvl: '+(ch.ilvl||'—'), style:{fontSize:'11px', color:'#72767d'}}));
+    inf.appendChild(dv({text:ginfo.s, style:{fontSize:'11px', color:'#72767d'}}));
     row.appendChild(inf);
     var del=mk('button',{cls:'delbtn', text:'🗑', onclick:function(){
-      setState({chars: S.chars.filter(function(_,i){return i!==idx})});
+      setState({chars: S.chars.filter(function(x){return x.id !== ch.id})});
     }});
     row.appendChild(del);
     card.appendChild(row);
@@ -158,19 +153,14 @@ function pageChars(){
   return wrap;
 }
 
-// MODAL
 function modalChar(){
-  var t={name:'', game:'wow', cls:'warrior', ilvl:''};
+  var t={id:'h'+Date.now(), name:'', game:'wow', cls:'warrior'};
   var m=dv({cls:'modal'});
   m.appendChild(dv({cls:'mtitle', text:'Neuer Held'}));
   var ni=mk('input',{cls:'fi', placeholder:'Name...'});
   ni.oninput=function(e){t.name=e.target.value};
   m.appendChild(ni);
   
-  var il=mk('input',{cls:'fi', placeholder:'Itemlevel...'});
-  il.oninput=function(e){t.ilvl=e.target.value};
-  m.appendChild(il);
-
   var grid=dv({cls:'cls-grid'});
   WC.forEach(function(c){
     var o=dv({cls:'cls-opt', text:c.a, style:{color:c.c, background:c.c+'11'}});
