@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 <title>Gamer Logbuch</title>
 <style>
-/* 1:1 DEIN ORIGINAL CODE - KEINE ÄNDERUNG */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#dcddde}
 #app{max-width:480px;margin:0 auto;background:#36393f;min-height:100vh;display:flex;flex-direction:column;border-left:1px solid #202225;border-right:1px solid #202225}
+
+/* HEADER */
 .hdr{background:#2f3136;padding:10px 14px 0;border-bottom:1px solid #202225;flex-shrink:0}
 .logo-container { width: 140px; height: 50px; margin: 0 auto 10px; display: flex; justify-content: space-between; position: relative; }
 .logo-half { width: 60px; height: 100%; border: 3px solid; border-radius: 10px 10px 15px 15px; }
@@ -16,22 +17,29 @@ html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSyste
 .r-half { border-color: #b042ff; box-shadow: 0 0 15px rgba(176, 66, 255, 0.3); }
 .htitle{text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:7px;text-transform:uppercase}
 .htitle em{color:#7289da;font-style:normal}
+
 .srow{display:flex;align-items:center;background:#40444b;border-radius:6px;padding:6px 10px;margin-bottom:8px;border:1px solid #202225;gap:7px}
 .srow input{background:none;border:none;outline:none;color:#dcddde;font-size:13px;flex:1;font-family:inherit}
 .cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
 .cat{background:#40444b;border:1px solid #4f545c;border-radius:20px;padding:3px 12px;font-size:12px;color:#b9bbbe;cursor:pointer;white-space:nowrap;user-select:none;flex-shrink:0}
 .cat.on{background:#5865f2;border-color:#5865f2;color:#fff;font-weight:600}
-.content{flex:1;padding:12px;overflow-y:auto}
+
+.content{flex:1;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* NAV */
 .nav{display:flex;background:#2f3136;border-top:1px solid #202225;flex-shrink:0;height:40px}
 .nb{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#72767d;font-size:11px;font-weight:500;font-family:inherit;border-right:1px solid #202225;padding:0}
 .nb.on{color:#7289da;font-weight:700}
+
+/* CARDS */
 .card{background:#40444b;border-radius:8px;border:1px solid #202225;margin-bottom:10px;position:relative;overflow:hidden}
 .card-row{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
 .ptitle{font-size:17px;font-weight:800;color:#fff;letter-spacing:1px;text-transform:uppercase}
 .row-hdr{display:flex;align-items:center;margin-bottom:12px}
 .av{border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800}
+
+/* FORM & MODAL */
 .fi{width:100%;background:#2f3136;border:1px solid #4f545c;border-radius:6px;padding:8px 10px;color:#dcddde;font-size:14px;outline:none}
-.fg{margin-bottom:12px}
 .fl{font-size:10px;color:#72767d;font-weight:700;text-transform:uppercase;margin-bottom:4px;display:block}
 .bp{width:100%;background:#5865f2;border:none;border-radius:8px;padding:11px;color:#fff;font-size:14px;font-weight:700;cursor:pointer}
 .bs{width:100%;background:#4f545c;border:none;border-radius:8px;padding:11px;color:#b9bbbe;font-size:14px;cursor:pointer;margin-top:6px}
@@ -49,7 +57,7 @@ html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSyste
 <body>
 <div id="app"></div>
 <script>
-/* DEIN ORIGINAL CODE LOGIK - NUR LOCALSTORAGE HINZUGEFÜGT */
+// DATEN
 var WC=[
   {k:"dk",n:"Todesritter",a:"TK",c:"#C41E3A"},{k:"dh",n:"Dämonenjäger",a:"DJ",c:"#A330C9"},
   {k:"druid",n:"Druide",a:"DR",c:"#FF7C0A"},{k:"evoker",n:"Rufer",a:"RU",c:"#33937F"},
@@ -65,7 +73,7 @@ function isWow(k){return(GS.find(function(g){return g.k===k})||{}).w||false}
 function gi(k){return GS.find(function(g){return g.k===k})||GS[GS.length-1]}
 function ci(k){return WC.find(function(c){return c.k===k})||WC[0]}
 
-/* DER SPEICHER-KERN */
+// SPEICHER-LOGIK
 var LS_KEY = 'gamer_logbuch_v1';
 function save(data){ localStorage.setItem(LS_KEY, JSON.stringify(data)); }
 function load(){ var d = localStorage.getItem(LS_KEY); return d ? JSON.parse(d) : null; }
@@ -85,7 +93,7 @@ function setState(patch){
   render();
 }
 
-/* DEINE ORIGINAL MK-FUNKTION */
+// DEINE MK-FUNKTION
 function mk(tag,a,ch){
   var e=document.createElement(tag);
   if(a)Object.keys(a).forEach(function(k){
@@ -108,13 +116,11 @@ function renderHeader(){
   logo.appendChild(dv({cls:'logo-half r-half'}));
   hdr.appendChild(logo);
   hdr.appendChild(dv({cls:'htitle', html:'GAMER <em>LOGBUCH</em>'}));
-  
   var sr=dv({cls:'srow'});
   var si=mk('input',{type:'text',placeholder:'Suchen...',value:S.search});
   si.oninput=function(e){S.search=e.target.value; render()};
   sr.appendChild(si);
   hdr.appendChild(sr);
-  
   var cats=dv({cls:'cats'});
   ['Alle','WoW','Andere'].forEach(function(c){
     var ct=dv({cls:'cat'+(S.cat===c?' on':''), text:c});
@@ -130,10 +136,8 @@ function pageChars(){
   if(S.cat==='WoW') f=f.filter(function(c){return isWow(c.game)});
   if(S.cat==='Andere') f=f.filter(function(c){return !isWow(c.game)});
   if(S.search) f=f.filter(function(c){return c.name.toLowerCase().includes(S.search.toLowerCase())});
-
   var wrap=dv({});
   wrap.appendChild(dv({cls:'row-hdr'}, [mk('span',{cls:'ptitle',text:'🎮 Helden'})]));
-  
   f.forEach(function(ch, idx){
     var cinfo=ci(ch.cls), ginfo=gi(ch.game);
     var card=dv({cls:'card', style:{borderLeft:'4px solid '+cinfo.c}});
@@ -143,10 +147,7 @@ function pageChars(){
     inf.appendChild(dv({text:ch.name, style:{fontWeight:800, color:'#fff'}}));
     inf.appendChild(dv({text:ginfo.s, style:{fontSize:'11px', color:'#72767d'}}));
     row.appendChild(inf);
-    var del=mk('button',{cls:'delbtn', text:'🗑', onclick:function(){
-      setState({chars: S.chars.filter(function(x){return x.id !== ch.id})});
-    }});
-    row.appendChild(del);
+    row.appendChild(mk('button',{cls:'delbtn', text:'🗑', onclick:function(){setState({chars: S.chars.filter(function(x){return x.id !== ch.id})})}}));
     card.appendChild(row);
     wrap.appendChild(card);
   });
@@ -160,7 +161,6 @@ function modalChar(){
   var ni=mk('input',{cls:'fi', placeholder:'Name...'});
   ni.oninput=function(e){t.name=e.target.value};
   m.appendChild(ni);
-  
   var grid=dv({cls:'cls-grid'});
   WC.forEach(function(c){
     var o=dv({cls:'cls-opt', text:c.a, style:{color:c.c, background:c.c+'11'}});
@@ -168,11 +168,7 @@ function modalChar(){
     grid.appendChild(o);
   });
   m.appendChild(grid);
-  
-  m.appendChild(mk('button',{cls:'bp', text:'Speichern', onclick:function(){
-    if(!t.name) return;
-    setState({chars: S.chars.concat([t]), modal:null});
-  }}));
+  m.appendChild(mk('button',{cls:'bp', text:'Speichern', onclick:function(){ if(!t.name) return; setState({chars: S.chars.concat([t]), modal:null}); }}));
   m.appendChild(mk('button',{cls:'bs', text:'Abbrechen', onclick:function(){setState({modal:null})}}));
   return m;
 }
@@ -184,16 +180,13 @@ function render(){
   var c=dv({cls:'content'});
   if(S.page==='chars') c.appendChild(pageChars());
   app.appendChild(c);
-  
   var fabW=dv({cls:'fab-wrap'});
   fabW.appendChild(mk('button',{cls:'fab-btn', text:'+', onclick:function(){setState({modal:'char'})}}));
   app.appendChild(fabW);
-
   var nav=dv({cls:'nav'});
   nav.appendChild(dv({cls:'nb' + (S.page==='chars'?' on':''), text:'HELDEN', onclick:function(){setState({page:'chars'})}}));
   nav.appendChild(dv({cls:'nb', text:'WEEKLY'}));
   app.appendChild(nav);
-
   if(S.modal==='char'){
     var o=dv({cls:'ov'});
     o.appendChild(modalChar());
