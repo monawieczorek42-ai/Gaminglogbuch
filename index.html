@@ -3,217 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<title>Gamer Logbuch</title>
+<title>Gamer Logbuch - Pro Dashboard</title>
 <style>
-/* DEIN ORIGINALES DESIGN */
+/* DEIN ORIGINALES DESIGN-FUNDAMENT */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#dcddde}
-#app{max-width:480px;margin:0 auto;background:#36393f;min-height:100vh;display:flex;flex-direction:column;border-left:1px solid #202225;border-right:1px solid #202225}
+html,body{height:100%;background:#0f1115;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#dcddde}
+#app{max-width:480px;margin:0 auto;background:linear-gradient(180deg, #161920 0%, #0f1115 100%);min-height:100vh;display:flex;flex-direction:column;border-left:1px solid #202225;border-right:1px solid #202225}
 
-/* DER FIX FÜR DAS BREITE LOGO */
-.hdr{background:#2f3136;padding:15px 14px 0;border-bottom:1px solid #202225;flex-shrink:0}
+/* NEUER GLASSMORPHISM LOOK & GLOW */
+.card{background:rgba(64, 68, 75, 0.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;border:1px solid rgba(255,255,255,0.05);margin-bottom:12px;position:relative;overflow:hidden;transition:0.3s;animation:slideIn 0.4s ease-out}
+@keyframes slideIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* HEADER FIX (BREITES LOGO) */
+.hdr{background:#161920;padding:15px 14px 10px;border-bottom:1px solid #202225;flex-shrink:0}
 .logo-container { width: 140px; height: 50px; margin: 0 auto 10px; display: flex; justify-content: space-between; position: relative; }
 .logo-half { width: 60px; height: 100%; border: 3px solid; border-radius: 10px 10px 15px 15px; }
 .l-half { border-color: #00fbff; box-shadow: 0 0 15px rgba(0, 251, 255, 0.3); }
 .r-half { border-color: #b042ff; box-shadow: 0 0 15px rgba(176, 66, 255, 0.3); }
 
-.htitle{text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:7px;text-transform:uppercase}
+.htitle{text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;color:#fff;margin-bottom:8px;text-transform:uppercase}
 .htitle em{color:#7289da;font-style:normal}
-.srow{display:flex;align-items:center;background:#40444b;border-radius:6px;padding:6px 10px;margin-bottom:8px;border:1px solid #202225;gap:7px}
-.srow input{background:none;border:none;outline:none;color:#dcddde;font-size:13px;flex:1;font-family:inherit}
-.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
-.cat{background:#40444b;border:1px solid #4f545c;border-radius:20px;padding:3px 12px;font-size:12px;color:#b9bbbe;cursor:pointer;white-space:nowrap;user-select:none;flex-shrink:0}
-.cat.on{background:#5865f2;border-color:#5865f2;color:#fff;font-weight:600}
-.content{flex:1;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.nav{display:flex;background:#2f3136;border-top:1px solid #202225;flex-shrink:0;height:45px}
-.nb{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#72767d;font-size:11px;font-weight:500;font-family:inherit;border-right:1px solid #202225;white-space:nowrap;padding:0}
-.nb.on{color:#7289da;font-weight:700}
-.card{background:#40444b;border-radius:8px;border:1px solid #202225;margin-bottom:10px;position:relative;overflow:hidden}
-.card-row{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
-.ptitle{font-size:17px;font-weight:800;color:#fff;letter-spacing:1px;text-transform:uppercase}
-.row-hdr{display:flex;align-items:center;margin-bottom:12px}
-.av{border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800}
-.fi{width:100%;background:#2f3136;border:1px solid #4f545c;border-radius:6px;padding:8px 10px;color:#dcddde;font-size:14px;outline:none;font-family:inherit}
-.fg{margin-bottom:12px}
-.fl{font-size:10px;color:#72767d;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;display:block}
-.bp{width:100%;background:#5865f2;border:none;border-radius:8px;padding:11px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit}
-.bs{width:100%;background:#4f545c;border:none;border-radius:8px;padding:11px;color:#b9bbbe;font-size:14px;cursor:pointer;margin-top:6px;font-family:inherit}
-.cls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
-.cls-opt{border-radius:6px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;border:2px solid transparent;transition:.15s;user-select:none}
-.cls-opt.on{border-color:#fff4;background:#ffffff11}
-.cls-abbr{font-size:12px;font-weight:800;letter-spacing:.5px}
-.fab-wrap{padding:10px 14px 14px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.fab-btn{width:50px;height:50px;border-radius:50%;background:#5865f2;border:none;cursor:pointer;color:#fff;font-size:28px;box-shadow:0 4px 18px #5865f255;display:flex;align-items:center;justify-content:center;transition:.2s}
-.fab-btn.open{transform:rotate(45deg);background:#ed4245}
-.fab-menu{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.fab-item{background:#40444b;border:1px solid #4f545c;border-radius:20px;padding:8px 16px;cursor:pointer;color:#dcddde;font-size:13px;font-weight:500;box-shadow:0 2px 14px #00000055;white-space:nowrap}
-.ov{position:fixed;inset:0;background:#000000bb;z-index:999;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:#40444b;border-radius:16px 16px 0 0;padding:20px 16px 36px;width:100%;max-width:480px;border-top:2px solid #5865f255}
-.mtitle{font-size:17px;font-weight:800;color:#fff;text-align:center;margin-bottom:16px;text-transform:uppercase}
-.delbtn{background:none;border:none;cursor:pointer;color:#72767d;padding:4px 6px;font-size:15px}
+
+/* WEEKLY PROGRESS BAR */
+.progress-container { background:#2f3136; border-radius:10px; padding:12px; margin-bottom:15px; border:1px solid #4f545c33 }
+.pb-label { font-size:10px; font-weight:800; color:#7289da; text-transform:uppercase; margin-bottom:6px; display:flex; justify-content:space-between }
+.pb-track { height:8px; background:#1a1c21; border-radius:4px; overflow:hidden }
+.pb-fill { height:100%; background:linear-gradient(90deg, #5865f2, #00fbff); width:0%; transition:0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67) }
+
+/* CHAR CARD UPGRADES */
+.card-row{padding:14px;display:flex;align-items:center;gap:12px}
+.stats-row { display:flex; gap:8px; margin-top:5px }
+.stat-tag { font-size:10px; padding:2px 6px; border-radius:4px; background:rgba(0,0,0,0.3); color:#b9bbbe; border:1px solid rgba(255,255,255,0.1) }
+
+/* FORMS & NAV */
+.content{flex:1;padding:12px;overflow-y:auto}
+.nav{display:flex;background:#161920;border-top:1px solid #202225;height:45px}
+.nb{flex:1;display:flex;align-items:center;justify-content:center;color:#72767d;font-size:11px;font-weight:600;background:none;border:none;cursor:pointer}
+.nb.on{color:#7289da;border-bottom:2px solid #7289da}
+
+.fi{width:100%;background:#202225;border:1px solid #4f545c;border-radius:6px;padding:10px;color:#fff;outline:none;margin-bottom:10px}
+.bp{width:100%;background:#5865f2;border:none;border-radius:8px;padding:12px;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 4px 15px rgba(88, 101, 242, 0.3)}
+
+.cls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:15px}
+.cls-opt{border-radius:8px;padding:8px 4px;cursor:pointer;text-align:center;border:2px solid transparent}
+.cls-opt.on{border-color:#fff;background:rgba(255,255,255,0.1)}
+
+.cb { width:22px; height:22px; border:2px solid #4f545c; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#1a1a1a; font-weight:800 }
+.cb.on { background:#57f287; border-color:#57f287 }
+
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:flex-end}
+.modal{background:#2f3136;width:100%;padding:20px;border-radius:20px 20px 0 0;border-top:2px solid #5865f2}
 </style>
 </head>
 <body>
 <div id="app"></div>
+
 <script>
-// ALLE WOW KLASSEN
+// DATEN-STRUKTUR
 var WC=[
-  {k:"dk",n:"Todesritter",a:"TK",c:"#C41E3A"},{k:"dh",n:"Dämonenjäger",a:"DJ",c:"#A330C9"},
-  {k:"druid",n:"Druide",a:"DR",c:"#FF7C0A"},{k:"evoker",n:"Rufer",a:"RU",c:"#33937F"},
-  {k:"hunter",n:"Jäger",a:"JÄ",c:"#AAD372"},{k:"mage",n:"Magier",a:"MA",c:"#3FC7EB"},
-  {k:"monk",n:"Mönch",a:"MÖ",c:"#00FF98"},{k:"paladin",n:"Paladin",a:"PA",c:"#F48CBA"},
-  {k:"priest",n:"Priester",a:"PR",c:"#FFFFFF"},{k:"rogue",n:"Schurke",a:"SC",c:"#FFF468"},
-  {k:"shaman",n:"Schamane",a:"SH",c:"#0070DD"},{k:"warlock",n:"Hexenmeister",a:"HX",c:"#8788EE"},
-  {k:"warrior",n:"Krieger",a:"KR",c:"#C69B6D"}
+    {k:"dk",n:"Todesritter",a:"TK",c:"#C41E3A"},{k:"dh",n:"Dämonenjäger",a:"DJ",c:"#A330C9"},
+    {k:"druid",n:"Druide",a:"DR",c:"#FF7C0A"},{k:"evoker",n:"Rufer",a:"RU",c:"#33937F"},
+    {k:"hunter",n:"Jäger",a:"JÄ",c:"#AAD372"},{k:"mage",n:"Magier",a:"MA",c:"#3FC7EB"},
+    {k:"monk",n:"Mönch",a:"MÖ",c:"#00FF98"},{k:"paladin",n:"Paladin",a:"PA",c:"#F48CBA"},
+    {k:"priest",n:"Priester",a:"PR",c:"#FFFFFF"},{k:"rogue",n:"Schurke",a:"SC",c:"#FFF468"},
+    {k:"shaman",n:"Schamane",a:"SH",c:"#0070DD"},{k:"warlock",n:"Hexenmeister",a:"HX",c:"#8788EE"},
+    {k:"warrior",n:"Krieger",a:"KR",c:"#C69B6D"}
 ];
 
-var GS=[{k:"wow",l:"World of Warcraft",s:"WoW",c:"#ff7d0a",e:"⚔️",w:true},{k:"classic",l:"WoW Classic",s:"Classic",c:"#ffd700",e:"📜",w:true},{k:"hardcore",l:"WoW Hardcore",s:"HC",c:"#ed4245",e:"💀",w:true},{k:"other",l:"Anderes Spiel",s:"?",c:"#72767d",e:"🎮",w:false}];
+var WEEKLY_TASKS = [
+    {id:"w1", n:"Weltboss"},{id:"w2", n:"8 Delves (Vault)"},
+    {id:"w3", n:"Raid Clear"},{id:"w4", n:"Große Kammer 3/3"}
+];
 
-function isWow(k){return(GS.find(function(g){return g.k===k})||{}).w||false}
-function gi(k){return GS.find(function(g){return g.k===k})||GS[GS.length-1]}
-function ci(k){return WC.find(function(c){return c.k===k})||WC[0]}
-
-// SPEICHERFUNKTION FIX
-var LS_KEY='gamer_logbuch_save';
+// LOCALSTORAGE LOGIK
+var LS_KEY='gamer_logbuch_v2';
 function loadState(){
-  try {
-    var raw = localStorage.getItem(LS_KEY);
+    var raw=localStorage.getItem(LS_KEY);
     return raw ? JSON.parse(raw) : null;
-  } catch(e) { return null; }
 }
 function saveState(){
-  try {
     localStorage.setItem(LS_KEY, JSON.stringify({
-      page:S.page, cat:S.cat, chars:S.chars, sel:S.sel, wow:S.wow
+        chars:S.chars, weeklyDone:S.weeklyDone, page:S.page
     }));
-  } catch(e) {}
 }
 
-var saved=loadState()||{};
-var S={
-  page: saved.page||'chars',
-  cat: saved.cat||'Alle',
-  chars: saved.chars||[],
-  sel: saved.sel||null,
-  wow: saved.wow||false,
-  search: '',
-  modal: null,
-  fab: false
+var saved = loadState() || {};
+var S = {
+    page: saved.page || 'chars',
+    chars: saved.chars || [],
+    weeklyDone: saved.weeklyDone || {}, 
+    modal: null
 };
 
 function setState(patch){
-  Object.keys(patch).forEach(function(k){S[k]=patch[k]});
-  saveState();
-  render();
+    Object.assign(S, patch);
+    saveState();
+    render();
 }
 
-// DOM BUILDER
+// HILFSFUNKTIONEN (DEINE MK-FUNKTION)
 function mk(tag,a,ch){
-  var e=document.createElement(tag);
-  if(a)Object.keys(a).forEach(function(k){
-    var v=a[k];
-    if(k==='cls')e.className=v;
-    else if(k==='style'&&typeof v==='object')Object.assign(e.style,v);
-    else if(k==='text')e.textContent=v;
-    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);
-    else e.setAttribute(k,v);
-  });
-  if(ch)(Array.isArray(ch)?ch:[ch]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});
-  return e;
+    var e=document.createElement(tag);
+    if(a)Object.keys(a).forEach(function(k){
+        if(k==='cls')e.className=a[k];
+        else if(k==='style')Object.assign(e.style,a[k]);
+        else if(k==='text')e.textContent=a[k];
+        else if(k.startsWith('on'))e.addEventListener(k.substring(2).toLowerCase(),a[k]);
+        else e.setAttribute(k,a[k]);
+    });
+    if(ch)(Array.isArray(ch)?ch:[ch]).forEach(function(c){if(c)e.appendChild(typeof c==='string'?document.createTextNode(c):c)});
+    return e;
 }
 function dv(a,ch){return mk('div',a,ch)}
 
 // RENDER HEADER
 function renderHeader(){
-  var hdr=dv({cls:'hdr'});
-  var logo = dv({cls:'logo-container'});
-  logo.appendChild(dv({cls:'logo-half l-half'}));
-  logo.appendChild(dv({cls:'logo-half r-half'}));
-  hdr.appendChild(logo);
-  var ht=dv({cls:'htitle'});
-  ht.innerHTML='GAMER <em>LOGBUCH</em>';
-  hdr.appendChild(ht);
-  return hdr;
+    var hdr=dv({cls:'hdr'});
+    var logo=dv({cls:'logo-container'});
+    logo.appendChild(dv({cls:'logo-half l-half'}));
+    logo.appendChild(dv({cls:'logo-half r-half'}));
+    hdr.appendChild(logo);
+    hdr.appendChild(dv({cls:'htitle', html:'GAMER <em>LOGBUCH</em>'}));
+    return hdr;
 }
 
-// RENDER CHARS
+// RENDER CHARACTERS (DASHBOARD)
 function pageChars(){
-  var f=S.chars;
-  var wrap=dv({});
-  wrap.appendChild(dv({cls:'row-hdr'}, [mk('span',{cls:'ptitle',text:'🎮 Meine Helden'})]));
-  if(f.length===0){
-    wrap.appendChild(dv({cls:'empty', text:'Noch keine Helden angelegt. Drücke auf +'}));
-  } else {
-    f.forEach(function(ch, idx){
-      var card=dv({cls:'card'});
-      var row=dv({cls:'card-row'});
-      var cinfo = ci(ch.cls);
-      var av = dv({cls:'av', text:cinfo.a, style:{background:cinfo.c+'22', color:cinfo.c, border:'1px solid '+cinfo.c}});
-      row.appendChild(av);
-      var txt = dv({style:{flex:1, marginLeft:'10px'}});
-      txt.appendChild(dv({style:{fontWeight:700, color:'#fff'}, text:ch.name}));
-      txt.appendChild(dv({style:{fontSize:'11px', color:'#72767d'}, text:cinfo.n}));
-      row.appendChild(txt);
-      var del = mk('button',{cls:'delbtn', text:'🗑', onclick:function(){
-        var nc = S.chars.filter(function(_, i){return i!==idx});
-        setState({chars:nc});
-      }});
-      row.appendChild(del);
-      card.appendChild(row);
-      wrap.appendChild(card);
+    var wrap=dv({});
+    
+    // Weekly Progress
+    var doneCount = WEEKLY_TASKS.filter(t => S.weeklyDone[t.id]).length;
+    var pct = Math.round((doneCount / WEEKLY_TASKS.length) * 100);
+    var pb = dv({cls:'progress-container'});
+    pb.appendChild(dv({cls:'pb-label'}, [mk('span',{text:'Weekly Progress'}), mk('span',{text:pct+'%'})]));
+    var track=dv({cls:'pb-track'});
+    track.appendChild(dv({cls:'pb-fill', style:{width:pct+'%'}}));
+    pb.appendChild(track);
+    wrap.appendChild(pb);
+
+    // Helden Liste
+    S.chars.forEach(function(ch, idx){
+        var cinfo = WC.find(c => c.k === ch.cls) || WC[0];
+        var card=dv({cls:'card', style:{boxShadow:'0 0 15px ' + cinfo.c + '22'}});
+        var row=dv({cls:'card-row'});
+        
+        // Avatar
+        row.appendChild(dv({cls:'av', text:cinfo.a, style:{width:'40px',height:'40px',background:cinfo.c+'33', color:cinfo.c, border:'1px solid '+cinfo.c, borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:'800'}}));
+        
+        var info=dv({style:{flex:1, marginLeft:'10px'}});
+        info.appendChild(dv({text:ch.name, style:{fontWeight:800, color:'#fff', fontSize:'15px'}}));
+        
+        var stats=dv({cls:'stats-row'});
+        stats.appendChild(dv({cls:'stat-tag', text:'iLvl: '+(ch.ilvl || '—')}));
+        stats.appendChild(dv({cls:'stat-tag', text:'Score: '+(ch.score || '0')}));
+        info.appendChild(stats);
+        
+        row.appendChild(info);
+        
+        // Delete
+        row.appendChild(mk('button',{cls:'delbtn', text:'🗑', style:{background:'none', border:'none', color:'#72767d', cursor:'pointer'}, onclick:function(){
+            var nc = S.chars.filter((_,i) => i!==idx);
+            setState({chars:nc});
+        }}));
+        
+        card.appendChild(row);
+        wrap.appendChild(card);
     });
-  }
-  return wrap;
+
+    if(S.chars.length === 0) wrap.appendChild(dv({style:{textAlign:'center', padding:'40px', color:'#72767d'}, text:'Keine Helden vorhanden. Tippe auf +'}));
+
+    return wrap;
 }
 
-// MODAL ADD CHAR
+// RENDER WEEKLY PAGE
+function pageWeekly(){
+    var wrap = dv({});
+    wrap.appendChild(dv({cls:'ptitle', text:'Wöchentliche Aufgaben', style:{marginBottom:'15px', display:'block'}}));
+    
+    WEEKLY_TASKS.forEach(function(t){
+        var row = dv({style:{display:'flex', alignItems:'center', padding:'12px', background:'rgba(255,255,255,0.05)', borderRadius:'10px', marginBottom:'8px', cursor:'pointer'}, onclick:function(){
+            var wd = Object.assign({}, S.weeklyDone);
+            wd[t.id] = !wd[t.id];
+            setState({weeklyDone: wd});
+        }});
+        
+        var cb = dv({cls:'cb' + (S.weeklyDone[t.id] ? ' on' : ''), text: S.weeklyDone[t.id] ? '✓' : ''});
+        row.appendChild(cb);
+        row.appendChild(dv({text: t.n, style:{marginLeft:'12px', fontSize:'14px', flex:1}}));
+        wrap.appendChild(row);
+    });
+    
+    return wrap;
+}
+
+// MODAL NEUER HELD
 function modalChar(){
-  var f={name:'', cls:'warrior'};
-  var wrap=dv({cls:'modal'});
-  wrap.appendChild(dv({cls:'mtitle', text:'Neuer Held'}));
-  var ni = mk('input',{cls:'fi', placeholder:'Name des Helden'});
-  ni.oninput=function(e){f.name=e.target.value};
-  wrap.appendChild(dv({cls:'fg'},[mk('label',{cls:'fl', text:'Name'}), ni]));
-  
-  var grid = dv({cls:'cls-grid'});
-  WC.forEach(function(c){
-    var opt = dv({cls:'cls-opt'+(f.cls===c.k?' on':''), style:{background:c.c+'11', color:c.c}});
-    opt.onclick=function(){f.cls=c.k; render(); setState({modal:'char'})};
-    opt.appendChild(dv({cls:'cls-abbr', text:c.a}));
-    grid.appendChild(opt);
-  });
-  wrap.appendChild(dv({cls:'fg'},[mk('label',{cls:'fl', text:'Klasse'}), grid]));
-  
-  wrap.appendChild(mk('button',{cls:'bp', text:'Speichern', onclick:function(){
-    if(!f.name) return;
-    setState({chars:S.chars.concat([f]), modal:null});
-  }}));
-  wrap.appendChild(mk('button',{cls:'bs', text:'Abbrechen', onclick:function(){setState({modal:null})}}));
-  return wrap;
+    var temp = {name:'', cls:'warrior', ilvl:'', score:''};
+    var m = dv({cls:'modal'});
+    m.appendChild(dv({cls:'mtitle', text:'Neuer Held', style:{textAlign:'center', fontWeight:800, marginBottom:'15px'}}));
+    
+    var ni = mk('input',{cls:'fi', placeholder:'Name des Helden'});
+    ni.oninput = e => temp.name = e.target.value;
+    m.appendChild(ni);
+
+    var si = mk('input',{cls:'fi', placeholder:'Itemlevel (z.B. 630)'});
+    si.oninput = e => temp.ilvl = e.target.value;
+    m.appendChild(si);
+
+    var sc = mk('input',{cls:'fi', placeholder:'M+ Score (z.B. 2400)'});
+    sc.oninput = e => temp.score = e.target.value;
+    m.appendChild(sc);
+
+    var grid = dv({cls:'cls-grid'});
+    WC.forEach(c => {
+        var opt = dv({cls:'cls-opt', style:{color:c.c, background:c.c+'11'}, text:c.a});
+        opt.onclick = () => {
+            document.querySelectorAll('.cls-opt').forEach(el => el.classList.remove('on'));
+            opt.classList.add('on');
+            temp.cls = c.k;
+        };
+        grid.appendChild(opt);
+    });
+    m.appendChild(grid);
+
+    m.appendChild(mk('button',{cls:'bp', text:'Hinzufügen', onclick:function(){
+        if(!temp.name) return;
+        setState({chars: S.chars.concat([temp]), modal:null});
+    }}));
+    m.appendChild(mk('button',{text:'Abbrechen', style:{width:'100%', background:'none', border:'none', color:'#72767d', marginTop:'10px', cursor:'pointer'}, onclick:()=>setState({modal:null})}));
+
+    return m;
 }
 
+// MAIN RENDER
 function render(){
-  var app=document.getElementById('app');
-  app.innerHTML='';
-  app.appendChild(renderHeader());
-  var cont = dv({cls:'content'});
-  cont.appendChild(pageChars());
-  app.appendChild(cont);
-  
-  var fabW = dv({cls:'fab-wrap'});
-  if(S.fab){
-    var menu = dv({cls:'fab-menu'});
-    menu.appendChild(mk('div',{cls:'fab-item', text:'Held hinzufügen', onclick:function(){setState({modal:'char', fab:false})}}));
-    fabW.appendChild(menu);
-  }
-  fabW.appendChild(mk('button',{cls:'fab-btn', text:S.fab?'✕':'+', onclick:function(){setState({fab:!S.fab})}}));
-  app.appendChild(fabW);
+    var app=document.getElementById('app');
+    app.innerHTML='';
+    app.appendChild(renderHeader());
 
-  if(S.modal==='char'){
-    var ov = dv({cls:'ov'});
-    ov.appendChild(modalChar());
-    app.appendChild(ov);
-  }
+    var cont = dv({cls:'content'});
+    if(S.page === 'chars') cont.appendChild(pageChars());
+    else cont.appendChild(pageWeekly());
+    app.appendChild(cont);
+
+    // FAB
+    var fab = dv({style:{position:'fixed', bottom:'70px', right:'20px'}});
+    fab.appendChild(mk('button',{cls:'bp', text:'+', style:{width:'55px', height:'55px', borderRadius:'50%', fontSize:'24px'}, onclick:()=>setState({modal:'char'})}));
+    app.appendChild(fab);
+
+    // NAV
+    var nav = dv({cls:'nav'});
+    var b1 = mk('button',{cls:'nb' + (S.page==='chars'?' on':''), text:'DASHBOARD', onclick:()=>setState({page:'chars'})});
+    var b2 = mk('button',{cls:'nb' + (S.page==='weekly'?' on':''), text:'WEEKLY', onclick:()=>setState({page:'weekly'})});
+    nav.appendChild(b1); nav.appendChild(b2);
+    app.appendChild(nav);
+
+    if(S.modal === 'char'){
+        var ov = dv({cls:'ov'});
+        ov.appendChild(modalChar());
+        app.appendChild(ov);
+    }
 }
 
 render();
