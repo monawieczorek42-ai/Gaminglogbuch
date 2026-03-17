@@ -1,255 +1,213 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<title>Gamer Logbuch</title>
-<meta name="apple-mobile-web-app-title" content="Gamer Logbuch">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#2f3136">
-<style>
-/* ... (Deine bestehenden Styles bleiben alle erhalten!) ... */
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#2f3136;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#dcddde}
-#app{max-width:480px;margin:0 auto;background:#36393f;min-height:100vh;display:flex;flex-direction:column;border-left:1px solid #202225;border-right:1px solid #202225}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Logbuch - Next Gen</title>
+    <style>
+        :root {
+            --bg-dark: #0f1218;
+            --card-bg: #1a1f29;
+            --neon-cyan: #00f2ff;
+            --neon-purple: #bc13fe;
+            --text-main: #e0e6ed;
+        }
 
-/* DEIN NEUER HEADER-LOOK (SPLIT-CONTROLLER) */
-.hdr{background:#2f3136;padding:15px 14px 0;border-bottom:1px solid #202225;flex-shrink:0}
-.logo-container { width: 90px; height: 42px; margin: 0 auto 10px; display: flex; justify-content: space-between; position: relative; }
-.logo-half { width: 38px; height: 100%; border: 3px solid; border-radius: 10px 10px 15px 15px; }
-.l-half { border-color: #00fbff; box-shadow: 0 0 15px rgba(0, 251, 255, 0.3); }
-.r-half { border-color: #b042ff; box-shadow: 0 0 15px rgba(176, 66, 255, 0.3); }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-.htitle{text-align:center;font-size:16px;font-weight:900;letter-spacing:4px;color:#fff;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:7px;text-transform:uppercase}
-.wow-badge{font-size:9px;background:#7289da22;color:#7289da;border:1px solid #7289da55;border-radius:10px;padding:1px 6px;font-weight:800;vertical-align: middle;}
+        /* HEADER & LOGO FIX */
+        header {
+            width: 100%;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(180deg, #161b25 0%, transparent 100%);
+        }
 
-/* Rest deiner Styles... */
-.srow{display:flex;align-items:center;background:#40444b;border-radius:6px;padding:6px 10px;margin-bottom:8px;border:1px solid #202225;gap:7px}
-.srow input{background:none;border:none;outline:none;color:#dcddde;font-size:13px;flex:1;font-family:inherit}
-.srow input::placeholder{color:#72767d}
-.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
-.cat{background:#40444b;border:1px solid #4f545c;border-radius:20px;padding:3px 12px;font-size:12px;color:#b9bbbe;cursor:pointer;white-space:nowrap;user-select:none;flex-shrink:0}
-.cat.on{background:#5865f2;border-color:#5865f2;color:#fff;font-weight:600}
-.content{flex:1;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.nav{display:flex;background:#2f3136;border-top:1px solid #202225;flex-shrink:0;height:40px}
-.nb{flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#72767d;font-size:11px;font-weight:500;font-family:inherit;border-right:1px solid #202225;white-space:nowrap;padding:0}
-.nb.on{color:#7289da;font-weight:700}
-.card{background:#40444b;border-radius:8px;border:1px solid #202225;margin-bottom:10px;position:relative;overflow:hidden}
-.card-row{padding:11px 14px;display:flex;align-items:center;gap:10px;cursor:pointer}
-.ptitle{font-size:17px;font-weight:800;color:#fff;letter-spacing:1px;text-transform:uppercase}
-.row-hdr{display:flex;align-items:center;margin-bottom:12px}
-.empty{text-align:center;padding:50px 20px;color:#72767d}
-.wtog{display:flex;align-items:center;justify-content:space-between;background:#40444b;border:1px solid #4f545c;border-radius:10px;padding:10px 14px;margin-bottom:12px;cursor:pointer;user-select:none}
-.wtog.on{background:linear-gradient(135deg,#5865f214,#7289da08);border-color:#5865f255;box-shadow:0 0 18px #5865f220}
-.wtog-label{font-size:13px;font-weight:600;color:#b9bbbe}
-.pill{width:40px;height:22px;border-radius:11px;background:#4f545c;position:relative;transition:.25s;flex-shrink:0}
-.pill.on{background:#5865f2;box-shadow:0 0 10px #5865f266}
-.pill::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.25s}
-.pill.on::after{left:21px}
-.av{border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800}
-.cb{width:20px;height:20px;border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px solid #4f545c;background:transparent;font-size:12px;font-weight:700;color:#1a1a1a;user-select:none;transition:.15s}
-.cb.on{background:#57f287;border-color:#57f287}
-.crow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #202225}
-.sec-title{font-size:10px;color:#72767d;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin:14px 0 6px}
-.vault-row{display:flex;gap:6px;margin-top:6px}
-.vs{flex:1;height:22px;border-radius:4px;cursor:pointer;border:1px solid #4f545c;background:#2f3136;transition:.2s}
-.vs.on{background:#ffd700;border-color:#ffd700}
-.csel{display:inline-flex;align-items:center;gap:5px;border:1px solid #4f545c;border-radius:20px;padding:5px 12px;cursor:pointer;margin:0 6px 6px 0;user-select:none}
-.csel.on{background:#5865f2;border-color:#5865f2}
-.chip{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600;margin-right:4px;margin-top:4px}
-.pb{height:5px;background:#2f3136;border-radius:3px;overflow:hidden;margin:5px 0 2px}
-.pbf{height:100%;border-radius:3px;transition:.5s}
-.fi{width:100%;background:#2f3136;border:1px solid #4f545c;border-radius:6px;padding:8px 10px;color:#dcddde;font-size:14px;outline:none;font-family:inherit}
-.fg{margin-bottom:12px}
-.fl{font-size:10px;color:#72767d;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;display:block}
-.bp{width:100%;background:#5865f2;border:none;border-radius:8px;padding:11px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit}
-.bs{width:100%;background:#4f545c;border:none;border-radius:8px;padding:11px;color:#b9bbbe;font-size:14px;cursor:pointer;margin-top:6px;font-family:inherit}
-.cls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
-.cls-opt{border-radius:6px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;border:2px solid transparent;transition:.15s;user-select:none}
-.cls-opt.on{border-color:#fff4;background:#ffffff11}
-.cls-abbr{font-size:12px;font-weight:800;letter-spacing:.5px}
-.fab-wrap{padding:10px 14px 14px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.fab-btn{width:50px;height:50px;border-radius:50%;background:#5865f2;border:none;cursor:pointer;color:#fff;font-size:28px;box-shadow:0 4px 18px #5865f255;align-self:flex-end;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
-.fab-btn.open{transform:rotate(45deg);background:#ed4245}
-.fab-menu{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.fab-item{background:#40444b;border:1px solid #4f545c;border-radius:20px;padding:8px 16px;cursor:pointer;color:#dcddde;font-size:13px;font-weight:500;box-shadow:0 2px 14px #00000055;white-space:nowrap;font-family:inherit}
-.ov{position:fixed;inset:0;background:#000000bb;z-index:999;display:flex;align-items:flex-end;justify-content:center}
-.modal{background:#40444b;border-radius:16px 16px 0 0;padding:20px 16px 36px;width:100%;max-width:480px;border-top:2px solid #5865f255;max-height:92vh;overflow-y:auto}
-.mtitle{font-size:17px;font-weight:800;color:#fff;text-align:center;margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase}
-.delbtn{background:none;border:none;cursor:pointer;color:#72767d;padding:4px 6px;font-size:15px;flex-shrink:0}
-.ni{background:none;border:none;outline:none;font-size:14px;font-weight:700;color:#fff;flex:1;min-width:0;font-family:inherit}
-</style>
+        .logo-container {
+            width: 140px; /* Breiter für besseres Verhältnis */
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .controller-half {
+            width: 60px;
+            height: 50px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .left-half { color: var(--neon-cyan); border: 3px solid var(--neon-cyan); }
+        .right-half { color: var(--neon-purple); border: 3px solid var(--neon-purple); }
+
+        /* FORMULAR */
+        .hero-form {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            background: #252d3a;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover { transform: scale(1.02); }
+
+        /* HELDEN LISTE */
+        .hero-list {
+            width: 90%;
+            max-width: 600px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .hero-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 5px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .delete-btn {
+            width: auto;
+            background: #ff4444;
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
+    </style>
 </head>
 <body>
-<div id="app"></div>
+
+<header>
+    <div class="logo-container">
+        <div class="controller-half left-half"></div>
+        <div class="controller-half right-half"></div>
+    </div>
+    <h1>Gamer Logbuch</h1>
+</header>
+
+<div class="hero-form">
+    <input type="text" id="heroName" placeholder="Name des Helden">
+    <select id="heroClass">
+        <option value="#C41E3A">Todesritter</option>
+        <option value="#A330C9">Dämonenjäger</option>
+        <option value="#FF7C0A">Druide</option>
+        <option value="#33937F">Rufer</option>
+        <option value="#AAD372">Jäger</option>
+        <option value="#3FC7EB">Magier</option>
+        <option value="#00FF98">Mönch</option>
+        <option value="#F48CBA">Paladin</option>
+        <option value="#FFFFFF">Priester</option>
+        <option value="#FFF468">Schurke</option>
+        <option value="#0070DD">Schamane</option>
+        <option value="#8788EE">Hexenmeister</option>
+        <option value="#C69B6D">Krieger</option>
+    </select>
+    <input type="text" id="heroGoal" placeholder="Aktuelles Ziel (z.B. Level 60)">
+    <button onclick="addHero()">Held hinzufügen</button>
+</div>
+
+<div class="hero-list" id="heroList"></div>
+
 <script>
-/* ... (Deine WC, GS und ACH Arrays bleiben identisch) ... */
-var WC=[{k:"dk",n:"Todesritter",a:"TK",c:"#C41E3A"},{k:"dh",n:"Dämonenjäger",a:"DJ",c:"#A330C9"},{k:"druid",n:"Druide",a:"DR",c:"#FF7C0A"},{k:"evoker",n:"Rufer",a:"RU",c:"#33937F"},{k:"hunter",n:"Jäger",a:"JÄ",c:"#AAD372"},{k:"mage",n:"Magier",a:"MA",c:"#3FC7EB"},{k:"monk",n:"Mönch",a:"MÖ",c:"#00FF98"},{k:"paladin",n:"Paladin",a:"PA",c:"#F48CBA"},{k:"priest",n:"Priester",a:"PR",c:"#FFFFFF"},{k:"rogue",n:"Schurke",a:"SC",c:"#FFF468"},{k:"shaman",n:"Schamane",a:"SH",c:"#0070DD"},{k:"warlock",n:"Hexenmeister",a:"HX",c:"#8788EE"},{k:"warrior",n:"Krieger",a:"KR",c:"#C69B6D"}];
-var GS=[{k:"wow",l:"World of Warcraft",s:"WoW",c:"#ff7d0a",e:"⚔️",w:true},{k:"classic",l:"WoW Classic",s:"Classic",c:"#ffd700",e:"📜",w:true},{k:"hardcore",l:"WoW Hardcore",s:"HC",c:"#ed4245",e:"💀",w:true},{k:"elden",l:"Elden Ring",s:"ER",c:"#c9a84c",e:"🪦",w:false},{k:"ds",l:"Dark Souls",s:"DS",c:"#888888",e:"🔥",w:false},{k:"cod",l:"Call of Duty",s:"CoD",c:"#5b8dd9",e:"🎯",w:false},{k:"ff14",l:"Final Fantasy XIV",s:"FF14",c:"#9b59b6",e:"🌙",w:false},{k:"destiny",l:"Destiny 2",s:"D2",c:"#e67e22",e:"🌌",w:false},{k:"other",l:"Anderes Spiel",s:"?",c:"#72767d",e:"🎮",w:false}];
-var ACH=[{id:"a1",e:"⚔️",n:"Erster M+10 Key",d:"Schließe einen +10 ab",m:1},{id:"a2",e:"🐉",n:"Raid Boss besiegt",d:"Ersten Raidboss besiegen",m:1},{id:"a3",e:"📦",n:"Große Kammer 3/3",d:"Alle 3 Vault-Slots öffnen",m:3},{id:"a4",e:"🏆",n:"Heroisch Clearing",d:"Einen heroischen Raid räumen",m:1},{id:"a5",e:"⚡",n:"M+ Rating 2000",d:"Rating 2000+ in M+ erreichen",m:1},{id:"a6",e:"🎯",n:"M+15 Meister",d:"Einen +15 abschließen",m:1},{id:"a7",e:"💎",n:"Mythisch Raider",d:"Einen mythischen Boss besiegen",m:1},{id:"a8",e:"📖",n:"Stratege",d:"10 Notizen schreiben",m:10},{id:"a9",e:"👥",n:"Twink Sammler",d:"5 Charaktere erstellen",m:5},{id:"a10",e:"🌟",n:"Weekly Veteran",d:"20 Weekly-Aufgaben erledigen",m:20}];
+    let heroes = [];
 
-function isWow(k){return(GS.find(function(g){return g.k===k})||{}).w||false}
-function gi(k){return GS.find(function(g){return g.k===k})||GS[GS.length-1]}
-function ci(k){return WC.find(function(c){return c.k===k})||WC[0]}
+    // 1. LocalStorage Laden
+    window.onload = () => {
+        const savedData = localStorage.getItem('gamerLogbook_heroes');
+        if (savedData) {
+            heroes = JSON.parse(savedData);
+            renderHeroes();
+        }
+    };
 
-var LS_KEY='gamer_logbuch_v1';
-function loadState(){
-  try{
-    var raw=localStorage.getItem(LS_KEY);
-    if(!raw)return null;
-    return JSON.parse(raw);
-  }catch(e){return null}
-}
-function saveState(){
-  try{
-    var toSave={page:S.page,cat:S.cat,chars:S.chars,weekly:S.weekly,goals:S.goals,notes:S.notes,ach:S.ach,sel:S.sel,wow:S.wow};
-    localStorage.setItem(LS_KEY,JSON.stringify(toSave));
-  }catch(e){}
-}
+    function addHero() {
+        const name = document.getElementById('heroName').value;
+        const color = document.getElementById('heroClass').value;
+        const className = document.getElementById('heroClass').options[document.getElementById('heroClass').selectedIndex].text;
+        const goal = document.getElementById('heroGoal').value;
 
-var saved=loadState()||{};
-var S={
-  page: saved.page ||'chars',
-  cat: saved.cat ||'Alle',
-  chars: saved.chars ||[],
-  weekly: saved.weekly ||{},
-  goals: saved.goals ||[],
-  notes: saved.notes ||[],
-  ach: saved.ach ||{},
-  sel: saved.sel ||null,
-  wow: saved.wow ||false,
-  search: '',
-  modal: null,
-  fab: false
-};
+        if(!name) return alert("Gib deinem Helden einen Namen!");
 
-function setState(patch){
-  Object.keys(patch).forEach(function(k){S[k]=patch[k]});
-  saveState();
-  render();
-}
+        const newHero = { id: Date.now(), name, color, className, goal };
+        heroes.push(newHero);
+        
+        saveAndRender();
+        
+        // Reset Inputs
+        document.getElementById('heroName').value = '';
+        document.getElementById('heroGoal').value = '';
+    }
 
-function mk(tag,a,ch){
-  var e=document.createElement(tag);
-  if(a)Object.keys(a).forEach(function(k){
-    var v=a[k];
-    if(k==='cls')e.className=v;
-    else if(k==='style'&&typeof v==='object')Object.assign(e.style,v);
-    else if(k==='text')e.textContent=v;
-    else if(k==='html')e.innerHTML=v;
-    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);
-    else e.setAttribute(k,v);
-  });
-  if(ch)(Array.isArray(ch)?ch:[ch]).forEach(function(c){if(c==null)return;e.appendChild(typeof c==='string'?document.createTextNode(c):c);});
-  return e;
-}
-function dv(a,ch){return mk('div',a,ch)}
-function Btn(cls,txt,fn){var b=mk('button',{cls:cls,text:txt});b.addEventListener('click',fn);return b}
-function Inp(a){return mk('input',a)}
-function Sel(a,opts,val){
-  var s=mk('select',a);
-  opts.forEach(function(o){
-    var op=mk('option',{value:o.v||o,text:o.l||o});
-    if((o.v||o)===val)op.selected=true;
-    s.appendChild(op);
-  });
-  return s;
-}
-function Txa(cls,val,ph){var t=mk('textarea',{cls:cls,placeholder:ph});t.value=val||'';return t}
+    function deleteHero(id) {
+        heroes = heroes.filter(h => h.id !== id);
+        saveAndRender();
+    }
 
-// ── HEADER RENDER (MIT NEUEM LOGO) ──
-function renderHeader(){
-  var sw=S.wow || S.chars.some(function(c){return isWow(c.game)});
-  var hdr=dv({cls:'hdr'});
-  
-  // DAS NEUE SPLIT-CONTROLLER LOGO
-  var logo = dv({cls:'logo-container'});
-  logo.appendChild(dv({cls:'logo-half l-half'}));
-  logo.appendChild(dv({cls:'logo-half r-half'}));
-  hdr.appendChild(logo);
+    // 1. LocalStorage Speichern
+    function saveAndRender() {
+        localStorage.setItem('gamerLogbook_heroes', JSON.stringify(heroes));
+        renderHeroes();
+    }
 
-  var ht=dv({cls:'htitle'});
-  ht.innerHTML='LOGBUCH';
-  if(sw)ht.appendChild(mk('span',{cls:'wow-badge',text:'PRO'}));
-  hdr.appendChild(ht);
-  
-  var sr=dv({cls:'srow'});
-  sr.appendChild(mk('span',{text:'🔍',style:{color:'#72767d',flexShrink:0}}));
-  var si=Inp({type:'text',value:S.search,placeholder:'Suchen...'});
-  si.addEventListener('input',function(e){setState({search:e.target.value})});
-  sr.appendChild(si);
-  hdr.appendChild(sr);
-  
-  var cats=dv({cls:'cats'});
-  ['Alle','WoW','MMO','RPG','Shooter'].forEach(function(c){
-    var ct=mk('div',{cls:'cat'+(S.cat===c?' on':''),text:c});
-    ct.addEventListener('click',function(){setState({cat:c})});
-    cats.appendChild(ct);
-  });
-  hdr.appendChild(cats);
-  return hdr;
-}
+    function renderHeroes() {
+        const list = document.getElementById('heroList');
+        list.innerHTML = '';
 
-/* ... (Hier kommen deine pageChars, pageWeekly etc. Funktionen - sie bleiben gleich!) ... */
-function showWow(){return S.wow||S.chars.some(function(c){return isWow(c.game)})}
-function avatar(ch,sz){sz=sz||36;var av=dv({cls:'av',style:{width:sz+'px',height:sz+'px',fontSize:sz>30?'14px':'11px'}});if(isWow(ch.game)){var c=ci(ch.cls);Object.assign(av.style,{background:c.c+'22',border:'1px solid '+c.c+'55',color:c.c,boxShadow:'0 0 8px '+c.c+'22'});av.textContent=c.a;}else{var g=gi(ch.game);Object.assign(av.style,{background:g.c+'22',border:'1px solid '+g.c+'44',fontSize:sz>30?'18px':'14px'});av.textContent=g.e;}return av;}
-function checkbox(checked,fn){var e=dv({cls:'cb'+(checked?' on':''),text:checked?'✓':''});e.addEventListener('click',function(){fn();});return e;}
-function wchips(w){var mp=w.mplus,rd=w.raidM||w.raidH||w.raidN,rl=w.raidM?'M':w.raidH?'H':'N',vf=(w.vault||0)>=3;var row=dv({style:{display:'flex',flexWrap:'wrap'}});function chip(txt,bg,col,border){var c=mk('span',{cls:'chip',text:txt});c.style.cssText='background:'+bg+';color:'+col+';border:1px solid '+border;return c;}row.appendChild(chip(mp?'⚡ M+✓':'⚡ M+ —',mp?'#5865f222':'#4f545c44',mp?'#7289da':'#72767d',mp?'#5865f244':'#4f545c44'));row.appendChild(chip(rd?'🛡 Raid✓':'🛡 Raid —',rd?'#57f28714':'#4f545c44',rd?'#57f287':'#72767d',rd?'#57f28733':'#4f545c44'));row.appendChild(chip('📦 '+(w.vault||0)+'/3',vf?'#ffd70014':'#4f545c44',vf?'#ffd700':'#72767d',vf?'#ffd70033':'#4f545c44'));return row;}
-function classPicker(selected,onChange){var grid=dv({cls:'cls-grid'});WC.forEach(function(cls){var opt=dv({cls:'cls-opt'+(selected===cls.k?' on':''),style:{background:cls.c+'18',borderColor:selected===cls.k?cls.c+'99':'transparent'}});opt.appendChild(mk('span',{cls:'cls-abbr',text:cls.a,style:{color:cls.c}}));opt.appendChild(mk('span',{cls:'cls-name',text:cls.n}));opt.addEventListener('click',function(){onChange(cls.k)});grid.appendChild(opt);});return grid;}
-
-// (HINWEIS: Kopiere deine restlichen page-Funktionen hier rein, sie funktionieren tadellos!)
-// Wichtig ist nur, dass die render() Funktion am Ende den neuen Header nutzt:
-
-function render(){
-  var app=document.getElementById('app');
-  app.innerHTML='';
-  var nav=[{k:'chars',l:'Helden'},S.wow?{k:'weekly',l:'Weekly'}:{k:'goals',l:'Ziele'},{k:'achievements',l:'Erfolge'},{k:'notes',l:'Notizen'}];
-  var vp=nav.find(function(n){return n.k===S.page})?S.page:nav[0].k;
-
-  app.appendChild(renderHeader()); // Nutzt die neue Header-Funktion von oben
-
-  var content=dv({cls:'content'});
-  if(vp==='chars')content.appendChild(pageChars());
-  else if(vp==='weekly')content.appendChild(pageWeekly());
-  else if(vp==='goals')content.appendChild(pageGoals());
-  else if(vp==='achievements')content.appendChild(pageAch());
-  else if(vp==='notes')content.appendChild(pageNotes());
-  app.appendChild(content);
-
-  var fabWrap=dv({cls:'fab-wrap'});
-  if(S.fab){
-    var menu=dv({cls:'fab-menu'});
-    [{l:'Neuer Held',m:'char'},{l:'Neues Ziel',m:'goal'},{l:'Notiz',m:'note'}].forEach(function(it){
-      var b=mk('button',{cls:'fab-item',text:it.l});
-      b.addEventListener('click',function(){setState({modal:it.m,fab:false})});
-      menu.appendChild(b);
-    });
-    fabWrap.appendChild(menu);
-  }
-  var fb=mk('button',{cls:'fab-btn'+(S.fab?' open':''),text:S.fab?'✕':'+'});
-  fb.addEventListener('click',function(){setState({fab:!S.fab})});
-  fabWrap.appendChild(fb);
-  app.appendChild(fabWrap);
-
-  var navEl=dv({cls:'nav'});
-  nav.forEach(function(n){
-    var b=mk('button',{cls:'nb'+(vp===n.k?' on':''),text:n.l});
-    b.addEventListener('click',function(){setState({page:n.k,fab:false})});
-    navEl.appendChild(b);
-  });
-  app.appendChild(navEl);
-
-  if(S.modal){
-    var ov=dv({cls:'ov'});
-    if(S.modal==='char')ov.appendChild(modalChar());
-    else if(S.modal==='goal')ov.appendChild(modalGoal());
-    else if(S.modal==='note')ov.appendChild(modalNote());
-    app.appendChild(ov);
-  }
-}
-
-render();
+        heroes.forEach(hero => {
+            const card = document.createElement('div');
+            card.className = 'hero-card';
+            card.style.borderLeftColor = hero.color;
+            card.innerHTML = `
+                <div>
+                    <strong style="color:${hero.color}">${hero.name}</strong> (${hero.className})<br>
+                    <span>Ziel: ${hero.goal || 'Kein Ziel gesetzt'}</span>
+                </div>
+                <button class="delete-btn" onclick="deleteHero(${hero.id})">X</button>
+            `;
+            list.appendChild(card);
+        });
+    }
 </script>
+
 </body>
 </html>
